@@ -1,0 +1,115 @@
+<html>
+	<head>
+		<title>JS-Lection</title>
+		<meta charset="utf-8">
+		<script type="text/javascript" src="http://code.jquery.com/jquery-latest.min.js"></script>
+		<script type="text/javascript">
+			(function(w) {
+
+
+				// Ex1
+				console.log("ex 1");
+				var o = {a: {b: 'c'}};
+			    console.log(getObject('a.b', o)); // 'c'
+			    console.log(getObject('a', o)); // {b: 'c'}
+			    console.log(getObject('d', o)); // undefined
+
+			    function getObject(path, obj) {
+			    	var pathArr = path.split("."),
+			    		requiredItem;
+			    	for(var i = 0; i < pathArr.length; i++) {
+			    		obj = obj[pathArr[i]];
+			    	}
+
+			    	return obj;
+			    }
+
+			    // Ex2
+			    console.log("ex 2");
+			    var Person = function(args){
+				   for(var prop in args) {
+				   		this[prop] = args[prop];
+				   }
+				};
+
+				var p = new Person({
+				   name: 'Jack', 
+				   age: '10',
+				   jump: function(){ return "My name is " + this.name + " and I can jump.";}
+				});
+				console.log(p.name); // ‘Jack’
+				console.log(p.age); // 10
+				console.log(p.jump()); // “My name is Jack and I can jump.”
+
+				// Ex3
+				console.log("ex 3");
+				var Person2 = function(args){
+					var _this = {};
+
+					for(var prop in args) {
+						this[prop] = args[prop];
+						if(!isFunction(args[prop])) {
+							binder(this, prop, args[prop]);
+						}
+					}
+				};
+
+				function binder(o, property, value) {
+					var _value = value;
+					o["get_" + property] = function() {
+						return _value;
+					}
+					o["set_" + property] = function(val) {
+						_value = val;
+					}
+				}
+
+				function isFunction(functionToCheck) {
+					return functionToCheck && {}.toString.call(functionToCheck) === '[object Function]';
+				}
+				function isObject(obj) {
+					return obj && {}.toString.call(obj) === '[object Object]';
+				}
+
+				var p2 = new Person2({
+				   name: 'Jack', 
+				   age: '10',
+				   jump: function(){ return "My name is " + this.name + " and I can jump.";}
+				});
+
+				console.log(p2.get_name()); // ‘Jack’
+				console.log(p2.get_age()); // 10
+				console.log(p2.jump()); // “My name is Jack and I can jump.”
+
+				// Ex4
+				console.log("Ex 4");
+
+				var a = {b: "c", d: {e: "f"}},
+				    b = deepCopy(a);
+				a.d = 12;
+				b.d // {e: ‘f’}
+
+				console.log(a, b);
+
+				function deepCopy(obj) {
+					var copy = {};
+
+					for(var prop in obj) {
+						if(isObject(obj[prop]) && obj[prop] != null) {
+							copy[prop] = deepCopy(obj[prop]);
+						} else {
+							copy[prop] = obj[prop];							
+						}
+					}
+
+					return copy;
+				}
+
+			})(window)
+		</script>
+	</head>
+
+	<body>
+
+	</body>
+</html>

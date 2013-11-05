@@ -1,0 +1,44 @@
+ Задача №1
+Напишите реализацию функции getObject(path, obj), которая вернет значение аттрибута объекта obj по заданному пути:
+
+var o = {a: {b: ‘c’}};
+      getObject(‘a.b’, o) // ‘c’
+      getObject(‘a’, o) // {b: ‘c’}
+      getObject(‘d’, o) // undefined
+
+Задача №2
+Напишите реализацию конструктора, принимающего на вход объект и создающего аттрибуты\методы по ключам этого объекта:
+
+var Person = function(args){
+   // put your code here
+};
+
+var p = new Person({
+   name: ‘Jack’, 
+   age: ’10’,
+   jump: function(){ return “My name is ” + this.name + “ and I can jump.”;}
+});
+p.name // ‘Jack’
+p.age // 10
+console.log(p.jump()) // “My name is Jack and I can jump.”
+
+Задача №3
+Модифицируйте конструктор из прошлой задачи, добавив к нему геттеры\сеттеры для каждого переданного свойства.
+
+var p = new Person({
+   name: ‘Jack’, 
+   age: ’10’
+});
+p.getName() // ‘Jack’
+p.name // undefined
+p.getAge() // 10
+p.age // undefined
+console.log(p.jump()) // “My name is Jack and I can jump.”
+console.log(p.getJump) // undefined
+
+Задача №4.
+Реализация функции deepCopy - для копирования объекта с учетом вложенных объектов:
+var a = {b: ‘c’, d: {e: ‘f’}},
+    b = deepCopy(a);
+a.d = 12;
+b.d // {e: ‘f’}
