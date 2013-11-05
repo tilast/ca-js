@@ -44,25 +44,22 @@
 				// Ex3
 				console.log("ex 3");
 				var Person2 = function(args){
-					var _this = {};
-
 					for(var prop in args) {
-						this[prop] = args[prop];
 						if(!isFunction(args[prop])) {
-							binder(this, prop, args[prop]);
+							(function(o, property, value) {
+								var _value = value;
+								o["get_" + property] = function() {
+									return _value;
+								}
+								o["set_" + property] = function(val) {
+									_value = val;
+								}
+							})(this, prop, args[prop]);
+						} else {
+							this[prop] = args[prop];
 						}
 					}
 				};
-
-				function binder(o, property, value) {
-					var _value = value;
-					o["get_" + property] = function() {
-						return _value;
-					}
-					o["set_" + property] = function(val) {
-						_value = val;
-					}
-				}
 
 				function isFunction(functionToCheck) {
 					return functionToCheck && {}.toString.call(functionToCheck) === '[object Function]';
@@ -79,7 +76,6 @@
 
 				console.log(p2.get_name()); // ‘Jack’
 				console.log(p2.get_age()); // 10
-				console.log(p2.jump()); // “My name is Jack and I can jump.”
 
 				// Ex4
 				console.log("Ex 4");
